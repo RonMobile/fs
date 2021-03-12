@@ -10,9 +10,9 @@
 #include <unistd.h>
 #endif
 
-#if defined(__ANDROID__)
 
-#endif
+
+
 
 // [[export]]
 extern "C" SEXP fs_getpwnam_(SEXP name_sxp) {
@@ -109,14 +109,14 @@ extern "C" SEXP fs_users_() {
   BEGIN_CPP
   std::vector<std::string> names;
   std::vector<int> ids;
-#ifndef __WIN32
-  // passwd* pwd = getpwent();
-  // while (pwd != NULL) {
-  //   names.push_back(pwd->pw_name);
-  //   ids.push_back(pwd->pw_uid);
-  //   pwd = getpwent();
-  // }
-  // endpwent();
+#if !defined(__WIN32) && !defined(__ANDROID__)
+  passwd* pwd = getpwent();
+  while (pwd != NULL) {
+    names.push_back(pwd->pw_name);
+    ids.push_back(pwd->pw_uid);
+    pwd = getpwent();
+  }
+  endpwent();
 #endif
 
   SEXP out = PROTECT(Rf_allocVector(VECSXP, 2));
