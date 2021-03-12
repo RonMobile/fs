@@ -11,10 +11,7 @@
 #endif
 
 #if defined(__ANDROID__)
-#include <grp.h>
-#include <pwd.h>
-#include <sys/types.h>
-#include <unistd.h>
+
 #endif
 
 // [[export]]
@@ -113,13 +110,13 @@ extern "C" SEXP fs_users_() {
   std::vector<std::string> names;
   std::vector<int> ids;
 #ifndef __WIN32
-  passwd* pwd = getpwent();
-  while (pwd != NULL) {
-    names.push_back(pwd->pw_name);
-    ids.push_back(pwd->pw_uid);
-    pwd = getpwent();
-  }
-  endpwent();
+  // passwd* pwd = getpwent();
+  // while (pwd != NULL) {
+  //   names.push_back(pwd->pw_name);
+  //   ids.push_back(pwd->pw_uid);
+  //   pwd = getpwent();
+  // }
+  // endpwent();
 #endif
 
   SEXP out = PROTECT(Rf_allocVector(VECSXP, 2));
