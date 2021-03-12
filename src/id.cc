@@ -10,6 +10,13 @@
 #include <unistd.h>
 #endif
 
+#if defined(__ANDROID__)
+#include <grp.h>
+#include <pwd.h>
+#include <sys/types.h>
+#include <unistd.h>
+#endif
+
 // [[export]]
 extern "C" SEXP fs_getpwnam_(SEXP name_sxp) {
   SEXP out = PROTECT(Rf_allocVector(INTSXP, Rf_xlength(name_sxp)));
